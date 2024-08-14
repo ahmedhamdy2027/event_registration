@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.title }} - Event Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 50px 0;
+            background: #333;
+            color: #fff;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 3em;
+        }
+
+        .event-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .event-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .event-info > div {
+            flex: 1 1 45%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-description {
+            line-height: 1.6;
+        }
+
+        .event-details {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .event-details li {
+            margin-bottom: 10px;
+        }
+
+        .event-details li span {
+            font-weight: bold;
+        }
+
+        .event-schedule {
+            margin-bottom: 50px;
+        }
+
+        .event-schedule h2 {
+            margin-bottom: 20px;
+        }
+
+        .schedule-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .register-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            background: #ff6347;
+            color: #fff;
+            font-size: 1.2em;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .register-button:hover {
+            background: #e5533d;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{ event.title }}</h1>
+    </div>
+
+    <div class="container">
+        {% if event.image %}
+            <img class="event-image" src="{{ event.image.url }}" alt="{{ event.title }}">
+        {% endif %}
+        
+        <div class="event-info">
+            <div class="event-description">
+                <h2>About the Event</h2>
+                <p>{{ event.description }}</p>
+            </div>
+            <div class="event-details">
+                <h2>Event Details</h2>
+                <ul>
+                    <li><span>Date:</span> {{ event.date }}</li>
+                    <li><span>Location:</span> {{ event.location }}</li>
+                    <li><span>Speakers:</span> {{ event.Speakers }}</li>
+                    <li><span>Organizer:</span> {{ event.organizer }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="event-schedule">
+            <h2>Schedule</h2>
+            <!-- Ensure that 'schedule' is a valid attribute or remove this section if not applicable -->
+            {% if event.schedule %}
+                {% for item in event.schedule %}
+                    <div class="schedule-item">
+                        <h3>{{ item.time }} - {{ item.activity }}</h3>
+                        <p>{{ item.description }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No schedule available.</p>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'register_for_event' event.id %}" class="register-button">Register for Event</a>
+    </div>
+</body>
+</html>
